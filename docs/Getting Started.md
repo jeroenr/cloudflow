@@ -708,6 +708,9 @@ Our application uses an http based ingress to ingest data. Follow the following 
 $kubectl -n sensor-data port-forward \
 $(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") \
 3000:$(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].spec.containers[0].ports[0].containerPort}")
+```
+The output should be similar to this:
+```
 Forwarding from 127.0.0.1:3000 -> 3003
 Forwarding from [::1]:3000 -> 3003
 Handling connection for 3003
