@@ -702,43 +702,10 @@ http-ingress      sensor-data-http-ingress-fd9cdb66f-jbsrm    Running           
 
 Our application uses an http based ingress to ingest data. Follow the following steps to push JSON data through the ingress into the application.
 
-* Get the port details of our ingress streamlet
-
-```
-$ kubectl describe pod sensor-data-http-ingress-fd9cdb66f-jbsrm -n sensor-data
-Name:               sensor-data-http-ingress-fd9cdb66f-jbsrm
-Namespace:          sensor-data
-Priority:           0
-PriorityClassName:  <none>
-Node:               gke-dg-gke-1-default-pool-162a09d5-ddnq/10.132.0.21
-Start Time:         Tue, 12 Nov 2019 12:47:20 +0530
-Labels:             app.kubernetes.io/component=streamlet
-                    app.kubernetes.io/managed-by=cloudflow
-                    app.kubernetes.io/name=sensor-data-http-ingress
-                    app.kubernetes.io/part-of=sensor-data
-                    app.kubernetes.io/version=2-89ce8a7
-                    com.lightbend.cloudflow/app-id=sensor-data
-                    com.lightbend.cloudflow/streamlet-name=http-ingress
-                    pod-template-hash=fd9cdb66f
-Annotations:        prometheus.io/scrape: true
-Status:             Running
-IP:                 10.44.1.6
-Controlled By:      ReplicaSet/sensor-data-http-ingress-fd9cdb66f
-Containers:
-  sensor-data-http-ingress:
-    Container ID:  docker://9149cd757094e7ea1b943076048b7efc7aa343da8c2d598bba31295ef3cbfd6b
-    Image:         eu.gcr.io/bubbly-observer-178213/sensor-data@sha256:ee496e8cf3a3d9ab71c3ef4a4929ed8eeb6129845f981c33005942314ad30f18
-    Image ID:      docker-pullable://eu.gcr.io/bubbly-observer-178213/sensor-data@sha256:ee496e8cf3a3d9ab71c3ef4a4929ed8eeb6129845f981c33005942314ad30f18
-    Ports:         3003/TCP, 2048/TCP, 2049/TCP, 2050/TCP
-...
-```
-
-So one of the POD ports is `3003` - let's set up a port forwarding on it.
-
 * Setup port forwarding for the POD port
 
 ```
-$ kubectl port-forward sensor-data-http-ingress-fd9cdb66f-jbsrm -n sensor-data 3003:3003
+$ kubectl port-forward $(kubectl -n sensor-data-scala get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") -n sensor-data 3003:3003
 Forwarding from 127.0.0.1:3003 -> 3003
 Forwarding from [::1]:3003 -> 3003
 Handling connection for 3003
