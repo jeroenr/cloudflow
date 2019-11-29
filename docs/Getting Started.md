@@ -705,9 +705,11 @@ Our application uses an http based ingress to ingest data. Follow the following 
 * Setup port forwarding for the POD port
 
 ```
-$ kubectl port-forward $(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") -n sensor-data 3003:3003
-Forwarding from 127.0.0.1:3003 -> 3003
-Forwarding from [::1]:3003 -> 3003
+$kubectl -n sensor-data port-forward \
+$(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") \
+3000:$(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].spec.containers[0].ports[0].containerPort}")
+Forwarding from 127.0.0.1:3000 -> 3003
+Forwarding from [::1]:3000 -> 3003
 Handling connection for 3003
 ```
 
@@ -716,10 +718,10 @@ Handling connection for 3003
  for str in $(cat test-data/10-storm.json)
 do
   echo "Using $str"
-  curl -i -X POST http://localhost:3003 -H "Content-Type: application/json" --data "$str"
+  curl -i -X POST http://localhost:3000 -H "Content-Type: application/json" --data "$str"
 done
 ```
-* Note that we are using the port number `3003` of `localhost` to which we mapped the POD port. This JSON record will pass through the stages of transformation within the pipeline that we defined in the blueprint.
+* Note that we are using the port number `3000` of `localhost` to which we mapped the POD port. This JSON record will pass through the stages of transformation within the pipeline that we defined in the blueprint.
 
 
 ## Verify the Application works
