@@ -705,7 +705,7 @@ Our application uses an http based ingress to ingest data. Follow the following 
 * Setup port forwarding for the POD port
 
 ```
-$ kubectl port-forward $(kubectl -n sensor-data-scala get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") -n sensor-data 3003:3003
+$ kubectl port-forward $(kubectl -n sensor-data get po -lcom.lightbend.cloudflow/streamlet-name=http-ingress -o jsonpath="{.items[0].metadata.name}") -n sensor-data 3003:3003
 Forwarding from 127.0.0.1:3003 -> 3003
 Forwarding from [::1]:3003 -> 3003
 Handling connection for 3003
