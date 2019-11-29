@@ -744,9 +744,7 @@ Forwarding from [::1]:3003 -> 3003
 Handling connection for 3003
 ```
 
-* Push data to the application. In order to do that follow the steps:
- * create a json file named `data.json` with the content `{"deviceId":"c75cb448-df0e-4692-8e06-0321b7703992","timestamp":1495545346279,"measurements":{"power":1.7,"rotorSpeed":23.4,"windSpeed":100.1}}`
- * run the following bash script:
+* Push data to the application. In order to do that run the following bash script:
 ```
  for str in $(cat test-data/10-storm.json)
 do
