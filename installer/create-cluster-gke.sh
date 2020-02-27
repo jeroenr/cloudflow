@@ -59,8 +59,9 @@ gcloud container clusters create $CLUSTER_NAME \
   --max-nodes=7 \
   --min-nodes=1 \
   --no-enable-legacy-authorization \
-  --no-enable-autoupgrade \
-  --no-enable-autorepair
+  --no-enable-autoupgrade
+  
+gcloud container node-pools update default-pool --cluster $CLUSTER_NAME --zone $gcloudZone --no-enable-autorepair
 
 # Create node-pool for Strimzi resources.
 # `gcloud beta` required to init taints as of 04/10/18
@@ -72,8 +73,9 @@ gcloud beta container node-pools create kafka-pool-0 \
   --machine-type n1-highmem-2  \
   --node-labels=dedicated=StrimziKafka \
   --node-taints=dedicated=StrimziKafka:NoSchedule \
-  --no-enable-autoupgrade \
-  --no-enable-autorepair
+  --no-enable-autoupgrade
+  
+gcloud container node-pools update kafka-pool-0 --cluster $CLUSTER_NAME --zone $gcloudZone --no-enable-autorepair
 
 ## Wait for clusters to come up
 echo "Waiting for cluster to become stable before continuing with the installation....."
