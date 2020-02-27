@@ -146,7 +146,7 @@ echo "Examples of these are Spark and Flink checkpointing and savepointing."
 echo ""
 printSelection "${readWriteManyProvisioners[@]}"
 
-selectedIndex=-1
+selectedIndex=1 # hardcoded to lightbend.com/nfs
 while [[ "$selectedIndex" == -1 ]]
 do
     selectedIndex=$(queryStorageClass ${#clusterStorageClassProvisioner[@]})
@@ -162,7 +162,7 @@ echo "Examples of these are Kafka, Zookeeper, and Prometheus."
 echo ""
 printSelection "${readWriteOnceProvisioners[@]}"
 
-selectedIndex=-1
+selectedIndex=2 # hardcoded to kubernetes.io/gce-pd
 while [[ "$selectedIndex" == -1 ]]
 do
     selectedIndex=$(queryStorageClass ${#clusterStorageClassProvisioner[@]})
